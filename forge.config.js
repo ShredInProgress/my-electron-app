@@ -1,11 +1,26 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+require('dotenv').config();
+
 
 module.exports = {
   packagerConfig: {
     asar: true,
   },
   rebuildConfig: {},
+   publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'ShredInProgress',
+          name: 'my-electron-app'
+        },
+        prerelease: false,
+        draft: false
+      }
+    }
+  ],
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
@@ -29,6 +44,7 @@ module.exports = {
       name: '@electron-forge/plugin-auto-unpack-natives',
       config: {},
     },
+    
     // Fuses are used to enable/disable various Electron functionality
     // at package time, before code signing the application
     new FusesPlugin({
